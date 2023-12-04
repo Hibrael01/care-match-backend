@@ -6,13 +6,18 @@ import org.springframework.stereotype.Service;
 
 import com.caretech.carematch.model.Cuidador;
 import com.caretech.carematch.model.Procurador;
+import com.caretech.carematch.model.ProcuradorXNecessidade;
 import com.caretech.carematch.repository.ProcuradorRepository;
+import com.caretech.carematch.repository.ProcuradorXNecessidadeRepository;
 
 @Service
 public class ProcuradorService {
 	
 	@Autowired
 	private ProcuradorRepository repository;
+	
+	@Autowired
+	private ProcuradorXNecessidadeRepository procuradorXNecessidadeRepository;
 	
 	public Procurador gravarProcurador(Procurador procurador) throws Exception {
 		try {
@@ -65,5 +70,38 @@ public class ProcuradorService {
 			throw e;
 		}
 	}
+	
+	public ProcuradorXNecessidade criarProcuradorXNecessidade(ProcuradorXNecessidade procuradorXNecessidade) throws Exception {
+		try {
+			
+			if(procuradorXNecessidade != null) {
+				return procuradorXNecessidadeRepository.save(procuradorXNecessidade);
+			}
+			
+		} catch (Exception e) {
+			throw e;
+		}
+		return null;
+	}
+	
+	public ProcuradorXNecessidade alterarProcuradorXNecessidade(ProcuradorXNecessidade procuradorXNecessidade) throws Exception {
+		try {
+			
+			if(procuradorXNecessidade != null) {
+				
+				if(procuradorXNecessidade.getId() == null || procuradorXNecessidade.getId().getIdNecessidade() == 0 || procuradorXNecessidade.getId().getProcurador() == 0 
+						|| StringUtils.isBlank(procuradorXNecessidade.getId().getDiaNecessidade())) {
+					throw new Exception("O formato da chave identificadora informada é inválido!");
+				}
+				
+				return procuradorXNecessidadeRepository.save(procuradorXNecessidade);
+			}
+			
+		} catch (Exception e) {
+			throw e;
+		}
+		return null;
+	}
+	
 	
 }

@@ -22,11 +22,11 @@ public class ConexaoCuidadorXProcurador {
 	private Integer idConexao;
 	
 	@ManyToOne
-	@JoinColumn(name = "ID_PROCURADOR",  nullable = false,  insertable = false, updatable = false)
+	@JoinColumn(name = "ID_PROCURADOR",  nullable = false)
 	private Procurador procurador;
 	
 	@ManyToOne
-	@JoinColumn(name = "ID_CUIDADOR",  nullable = false,  insertable = false, updatable = false)
+	@JoinColumn(name = "ID_CUIDADOR",  nullable = false)
 	private Cuidador cuidador;
 	
 	private LocalDate dataConexao;
@@ -41,15 +41,15 @@ public class ConexaoCuidadorXProcurador {
 	private String status;
 	
 	@OneToOne
-	@JoinColumn(name = "ID_MOTIVO", nullable = false,  insertable = false, updatable = false)
+	@JoinColumn(name = "ID_MOTIVO", nullable = false, updatable = false, insertable = false)
 	private MotivoCancelamento motivoCancelamento1;
 	
 	@OneToOne
-	@JoinColumn(name = "ID_MOTIVO", nullable = false,  insertable = false, updatable = false)
+	@JoinColumn(name = "ID_MOTIVO", nullable = false, updatable = false, insertable = false)
 	private MotivoCancelamento motivoCancelamento2;
 	
 	@OneToOne
-	@JoinColumn(name = "ID_MOTIVO", nullable = false,  insertable = false, updatable = false)
+	@JoinColumn(name = "ID_MOTIVO", nullable = false, updatable = false, insertable = false)
 	private MotivoCancelamento motivoCancelamento3;
 
 	public Integer getIdConexao() {

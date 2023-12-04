@@ -19,7 +19,6 @@ import jakarta.persistence.Table;
 public class EnderecoCuidador {
 	
 	@EmbeddedId
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private EnderecoCuidadorKey id;
 	
 	@ManyToOne
@@ -27,7 +26,7 @@ public class EnderecoCuidador {
 	private Cuidador cuidador;
 	
 	@OneToOne
-	@JoinColumn(name="ID_CIDADE", nullable = false,insertable = false, updatable = false)
+	@JoinColumn(name="ID_CIDADE", nullable = false)
 	private Cidade cidade;
 	
 	@Column(length = 100)
