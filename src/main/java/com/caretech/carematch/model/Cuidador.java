@@ -1,5 +1,7 @@
 package com.caretech.carematch.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -10,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "CUIDADOR", schema = "CAREMATCH")
@@ -37,6 +40,24 @@ public class Cuidador {
 	
 	@Column(length = 1)
 	private String atendeCasa;
+	
+	@Transient
+	private EnderecoCuidador enderecoCuidador;
+	
+	@Transient
+	private List<AvalicaoCuidador> lstAvalicaoCuidador;
+	
+	@Transient
+	private List<ConexaoCuidadorXProcurador> lstConexoes;
+	
+	@Transient
+	private List<CuidadorXCertificado> lstCertificados;
+	
+	@Transient
+	private List<CuidadorXDisponibilidade> lstDisponibilidade;
+	
+	@Transient
+	private List<CuidadorXExperiencia> lstExperiencia;
 
 	public Integer getIdCuidador() {
 		return idCuidador;
@@ -107,6 +128,72 @@ public class Cuidador {
 
 	public void setAtendeCasa(String atendeCasa) {
 		this.atendeCasa = atendeCasa;
+	}
+	
+	public EnderecoCuidador getEnderecoCuidador() {
+		if(enderecoCuidador == null) {
+			enderecoCuidador = new EnderecoCuidador();
+		}
+		return enderecoCuidador;
+	}
+
+	public void setEnderecoCuidador(EnderecoCuidador enderecoCuidador) {
+		this.enderecoCuidador = enderecoCuidador;
+	}
+
+	public List<AvalicaoCuidador> getLstAvalicaoCuidador() {
+		if(lstAvalicaoCuidador == null) {
+			lstAvalicaoCuidador = new ArrayList<AvalicaoCuidador>();
+		}
+		return lstAvalicaoCuidador;
+	}
+
+	public void setLstAvalicaoCuidador(List<AvalicaoCuidador> lstAvalicaoCuidador) {
+		this.lstAvalicaoCuidador = lstAvalicaoCuidador;
+	}
+
+	public List<ConexaoCuidadorXProcurador> getLstConexoes() {
+		if(lstConexoes == null) {
+			lstConexoes = new ArrayList<ConexaoCuidadorXProcurador>();
+		}
+		return lstConexoes;
+	}
+
+	public void setLstConexoes(List<ConexaoCuidadorXProcurador> lstConexoes) {
+		this.lstConexoes = lstConexoes;
+	}
+
+	public List<CuidadorXCertificado> getLstCertificados() {
+		if(lstCertificados == null) {
+			lstCertificados = new ArrayList<CuidadorXCertificado>();
+		}
+		return lstCertificados;
+	}
+
+	public void setLstCertificados(List<CuidadorXCertificado> lstCertificados) {
+		this.lstCertificados = lstCertificados;
+	}
+
+	public List<CuidadorXDisponibilidade> getLstDisponibilidade() {
+		if(lstDisponibilidade == null) {
+			lstDisponibilidade = new ArrayList<CuidadorXDisponibilidade>();
+		}
+		return lstDisponibilidade;
+	}
+
+	public void setLstDisponibilidade(List<CuidadorXDisponibilidade> lstDisponibilidade) {
+		this.lstDisponibilidade = lstDisponibilidade;
+	}
+
+	public List<CuidadorXExperiencia> getLstExperiencia() {
+		if(lstExperiencia == null) {
+			lstExperiencia = new ArrayList<CuidadorXExperiencia>();
+		}
+		return lstExperiencia;
+	}
+
+	public void setLstExperiencia(List<CuidadorXExperiencia> lstExperiencia) {
+		this.lstExperiencia = lstExperiencia;
 	}
 
 	@Override

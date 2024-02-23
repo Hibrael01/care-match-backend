@@ -1,10 +1,21 @@
 package com.caretech.carematch.model;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+
+import org.springframework.boot.context.properties.bind.Name;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.caretech.carematch.enums.TipoUsuario;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,7 +23,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "USUARIO", schema = "CAREMATCH")
-public class Usuario {
+public class Usuario implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy =  GenerationType.SEQUENCE)
@@ -36,7 +47,7 @@ public class Usuario {
 	private String sessionToken;
 	
 	@Column(length = 1)
-	private String tipoUsuario;
+	private TipoUsuario tipoUsuario;
 
 	@Column(length = 90)
 	private String email;
@@ -48,6 +59,63 @@ public class Usuario {
 	
 	@Column(length = 1)
 	private String desabilitado;
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		if(this.tipoUsuario == TipoUsuario.CUIDADOR) {
+			return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+		}else {
+			return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+		}
+	}
+
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+	
+		return this.login;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	
+	
+
+	public Usuario() {
+		super();
+	}
+
+	public Usuario(String login, String senha, TipoUsuario tipoUsuario) {
+		super();
+		this.login = login;
+		this.senha = senha;
+		this.tipoUsuario = tipoUsuario;
+	}
 
 	public Integer getIdUsuario() {
 		return idUsuario;
@@ -80,21 +148,15 @@ public class Usuario {
 	}
 
 	public String getLogin() {
-		if(login == null) {
-			login = "";
-		}
-		return login;
+		return this.login;
 	}
 
 	public void setLogin(String login) {
 		this.login = login;
 	}
-
+	
 	public String getSenha() {
-		if(senha == null) {
-			senha = "";
-		}
-		return senha;
+		return this.senha;
 	}
 
 	public void setSenha(String senha) {
@@ -120,14 +182,11 @@ public class Usuario {
 		this.sessionToken = sessionToken;
 	}
 
-	public String getTipoUsuario() {
-		if(tipoUsuario == null) {
-			tipoUsuario = "";
-		}
+	public TipoUsuario getTipoUsuario() {
 		return tipoUsuario;
 	}
 
-	public void setTipoUsuario(String tipoUsuario) {
+	public void setTipoUsuario(TipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
 
@@ -192,8 +251,9 @@ public class Usuario {
 				&& Objects.equals(idUsuario, other.idUsuario) && Objects.equals(login, other.login)
 				&& Objects.equals(nome, other.nome) && Objects.equals(senha, other.senha)
 				&& Objects.equals(sessionToken, other.sessionToken) && Objects.equals(sobrenome, other.sobrenome)
-				&& Objects.equals(telefone, other.telefone) && Objects.equals(tipoUsuario, other.tipoUsuario);
+				&& Objects.equals(telefone, other.telefone) && tipoUsuario == other.tipoUsuario;
 	}
-	
+
+
 	
 }
