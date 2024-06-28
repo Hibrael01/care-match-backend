@@ -52,7 +52,7 @@ public class EnderecoService {
 			
 			if(enderecoCuidador != null) {
 				
-				if(enderecoCuidador.getId() == null || enderecoCuidador.getId().getIdEndereco() == 0 || enderecoCuidador.getId().getCuidador() == 0) {
+				if(enderecoCuidador.getIdCuidador() == 0 || enderecoCuidador.getIdEndereco() == 0) {
 					throw new Exception("O ID informado está inválido!");
 				}
 				

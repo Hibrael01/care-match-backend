@@ -3,26 +3,35 @@ package com.caretech.carematch.model;
 import java.util.Objects;
 
 import com.caretech.carematch.key.EnderecoCuidadorKey;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "ENDERECO_CUIDADOR", schema = "CAREMATCH")
 public class EnderecoCuidador {
 	
-	@EmbeddedId
-	private EnderecoCuidadorKey id;
+	@Id
+	@Column(name = "ID_ENDERECO", insertable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer idEndereco;
 	
-	@ManyToOne
-	@JoinColumn(name = "ID_CUIDADOR",  nullable = false, insertable = false, updatable = false)
+	@Column(name = "ID_CUIDADOR")
+    private Integer idCuidador;
+	
+	@Transient
+	@JsonIgnore
 	private Cuidador cuidador;
 	
 	@OneToOne
@@ -43,14 +52,6 @@ public class EnderecoCuidador {
 	
 	@Column(length = 8)
 	private String cep;
-	
-	public EnderecoCuidadorKey getId() {
-		return id;
-	}
-
-	public void setId(EnderecoCuidadorKey id) {
-		this.id = id;
-	}
 
 	public Cuidador getCuidador() {
 		if(cuidador == null) {
@@ -129,9 +130,26 @@ public class EnderecoCuidador {
 		this.cep = cep;
 	}
 
+	public Integer getIdEndereco() {
+		return idEndereco;
+	}
+
+	public void setIdEndereco(Integer idEndereco) {
+		this.idEndereco = idEndereco;
+		
+	}
+
+	public Integer getIdCuidador() {
+		return idCuidador;
+	}
+
+	public void setIdCuidador(Integer idCuidador) {
+		this.idCuidador = idCuidador;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(acessivel, bairro, cep, cidade, complemento, cuidador, id, logradouro);
+		return Objects.hash(acessivel, bairro, cep, cidade, complemento, cuidador, idCuidador, idEndereco, logradouro);
 	}
 
 	@Override
@@ -146,8 +164,11 @@ public class EnderecoCuidador {
 		return Objects.equals(acessivel, other.acessivel) && Objects.equals(bairro, other.bairro)
 				&& Objects.equals(cep, other.cep) && Objects.equals(cidade, other.cidade)
 				&& Objects.equals(complemento, other.complemento) && Objects.equals(cuidador, other.cuidador)
-				&& Objects.equals(id, other.id) && Objects.equals(logradouro, other.logradouro);
+				&& Objects.equals(idCuidador, other.idCuidador) && Objects.equals(idEndereco, other.idEndereco)
+				&& Objects.equals(logradouro, other.logradouro);
 	}
+
+
 	
 	
 	

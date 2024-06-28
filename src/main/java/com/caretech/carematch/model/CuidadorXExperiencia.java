@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.springframework.cglib.core.Local;
 
 import com.caretech.carematch.key.CuidadorXExperienciaKey;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -16,17 +17,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "CUIDADOR_X_EXPERIENCIA", schema = "CAREMATCH")
 public class CuidadorXExperiencia {
-
-	@EmbeddedId
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private CuidadorXExperienciaKey id;
 	
-	@ManyToOne
-	 @JoinColumn(name = "ID_CUIDADOR", referencedColumnName = "ID_CUIDADOR", insertable = false, updatable = false)
+	@Id
+	@Column(name = "ID_EXPERIENCIA", insertable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer idExperiencia;
+	
+	@Column(name ="ID_CUIDADOR")
+	private Integer idCuidador;
+	
+	@Transient
+	@JsonIgnore
 	private Cuidador cuidador;
 	
 	@Column(length = 200)
@@ -41,12 +47,20 @@ public class CuidadorXExperiencia {
 	
 	private Integer qtdPessoas;
 
-	public CuidadorXExperienciaKey getId() {
-		return id;
+	public Integer getIdExperiencia() {
+		return idExperiencia;
 	}
 
-	public void setId(CuidadorXExperienciaKey id) {
-		this.id = id;
+	public void setIdExperiencia(Integer idExperiencia) {
+		this.idExperiencia = idExperiencia;
+	}
+
+	public Integer getIdCuidador() {
+		return idCuidador;
+	}
+
+	public void setIdCuidador(Integer idCuidador) {
+		this.idCuidador = idCuidador;
 	}
 
 	public Cuidador getCuidador() {
@@ -108,7 +122,7 @@ public class CuidadorXExperiencia {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cuidador, dataFinal, dataInicial, descricao, id, local, qtdPessoas);
+		return Objects.hash(cuidador, dataFinal, dataInicial, descricao, idCuidador, idExperiencia, local, qtdPessoas);
 	}
 
 	@Override
@@ -122,10 +136,8 @@ public class CuidadorXExperiencia {
 		CuidadorXExperiencia other = (CuidadorXExperiencia) obj;
 		return Objects.equals(cuidador, other.cuidador) && Objects.equals(dataFinal, other.dataFinal)
 				&& Objects.equals(dataInicial, other.dataInicial) && Objects.equals(descricao, other.descricao)
-				&& Objects.equals(id, other.id) && Objects.equals(local, other.local)
-				&& Objects.equals(qtdPessoas, other.qtdPessoas);
-	}
-
-	
+				&& Objects.equals(idCuidador, other.idCuidador) && Objects.equals(idExperiencia, other.idExperiencia)
+				&& Objects.equals(local, other.local) && Objects.equals(qtdPessoas, other.qtdPessoas);
+	}	
 	
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import com.caretech.carematch.key.CuidadorXCertificadoKey;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -14,17 +15,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "CUIDADOR_X_CERTIFICADO", schema = "CAREMATCH")
 public class CuidadorXCertificado {
 	
-	@EmbeddedId
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private CuidadorXCertificadoKey id;
+	@Id
+	@Column(name = "ID_CERTIFICADO", insertable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer idCertificado;
 	
-	@ManyToOne
-	@JoinColumn(name = "ID_CUIDADOR",  nullable = false, insertable = false, updatable = false)
+	@Column(name ="ID_CUIDADOR")
+	private Integer idCuidador;
+	
+	@Transient
+	@JsonIgnore
 	private Cuidador cuidador;
 
 	@Column(length = 200)
@@ -37,12 +43,20 @@ public class CuidadorXCertificado {
 	@Column(length = 200)
 	private String linkCertificado;
 	
-	public CuidadorXCertificadoKey getId() {
-		return id;
+	public Integer getIdCertificado() {
+		return idCertificado;
 	}
 
-	public void setId(CuidadorXCertificadoKey id) {
-		this.id = id;
+	public void setIdCertificado(Integer idCertificado) {
+		this.idCertificado = idCertificado;
+	}
+
+	public Integer getIdCuidador() {
+		return idCuidador;
+	}
+
+	public void setIdCuidador(Integer idCuidador) {
+		this.idCuidador = idCuidador;
 	}
 
 	public Cuidador getCuidador() {
@@ -96,7 +110,7 @@ public class CuidadorXCertificado {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cuidador, dataFinal, dataInicial, id, instituicao, linkCertificado);
+		return Objects.hash(cuidador, dataFinal, dataInicial, idCertificado, idCuidador, instituicao, linkCertificado);
 	}
 
 	@Override
@@ -109,8 +123,8 @@ public class CuidadorXCertificado {
 			return false;
 		CuidadorXCertificado other = (CuidadorXCertificado) obj;
 		return Objects.equals(cuidador, other.cuidador) && Objects.equals(dataFinal, other.dataFinal)
-				&& Objects.equals(dataInicial, other.dataInicial) && Objects.equals(id, other.id)
-				&& Objects.equals(instituicao, other.instituicao)
+				&& Objects.equals(dataInicial, other.dataInicial) && Objects.equals(idCertificado, other.idCertificado)
+				&& Objects.equals(idCuidador, other.idCuidador) && Objects.equals(instituicao, other.instituicao)
 				&& Objects.equals(linkCertificado, other.linkCertificado);
 	}
 

@@ -4,6 +4,9 @@ import java.sql.Time;
 import java.util.Objects;
 
 import com.caretech.carematch.key.CuidadorXDisponibilidadeKey;
+import com.caretech.carematch.utils.TimeDeserializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -14,32 +17,58 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "CUIDADOR_X_DISPONIBILIDADE", schema = "CAREMATCH")
 public class CuidadorXDisponibilidade {
 	
-	@EmbeddedId
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private CuidadorXDisponibilidadeKey id;
+	@Id
+	@Column(name = "ID_DISPONIBILIDADE",insertable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer idDisponibilidade;
 	
-	@ManyToOne
-	@JoinColumn(name = "ID_CUIDADOR",  nullable = false, insertable = false, updatable = false)
+	@Column(name = "DIA_SEMANA", length = 2, nullable = false)
+	private String diaSemana;
+	
+	@Column(name ="ID_CUIDADOR")
+	private Integer idCuidador;
+	
+	@Transient
+	@JsonIgnore
 	private Cuidador cuidador;
 	
+	@JsonDeserialize(using =  TimeDeserializer.class)
 	private Time horaInicial;
 	
+	@JsonDeserialize(using =  TimeDeserializer.class)
 	private Time horaFinal;
 	
 	@Column(length = 1)
 	private String diaInteiro;
 	
-	public CuidadorXDisponibilidadeKey getId() {
-		return id;
+	public Integer getIdDisponibilidade() {
+		return idDisponibilidade;
 	}
 
-	public void setId(CuidadorXDisponibilidadeKey id) {
-		this.id = id;
+	public void setIdDisponibilidade(Integer idDisponibilidade) {
+		this.idDisponibilidade = idDisponibilidade;
+	}
+
+	public String getDiaSemana() {
+		return diaSemana;
+	}
+
+	public void setDiaSemana(String diaSemana) {
+		this.diaSemana = diaSemana;
+	}
+
+	public Integer getIdCuidador() {
+		return idCuidador;
+	}
+
+	public void setIdCuidador(Integer idCuidador) {
+		this.idCuidador = idCuidador;
 	}
 
 	public Cuidador getCuidador() {
@@ -82,7 +111,7 @@ public class CuidadorXDisponibilidade {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cuidador, diaInteiro, horaFinal, horaInicial, id);
+		return Objects.hash(cuidador, diaInteiro, diaSemana, horaFinal, horaInicial, idCuidador, idDisponibilidade);
 	}
 
 	@Override
@@ -95,8 +124,11 @@ public class CuidadorXDisponibilidade {
 			return false;
 		CuidadorXDisponibilidade other = (CuidadorXDisponibilidade) obj;
 		return Objects.equals(cuidador, other.cuidador) && Objects.equals(diaInteiro, other.diaInteiro)
-				&& Objects.equals(horaFinal, other.horaFinal) && Objects.equals(horaInicial, other.horaInicial)
-				&& Objects.equals(id, other.id);
+				&& Objects.equals(diaSemana, other.diaSemana) && Objects.equals(horaFinal, other.horaFinal)
+				&& Objects.equals(horaInicial, other.horaInicial) && Objects.equals(idCuidador, other.idCuidador)
+				&& Objects.equals(idDisponibilidade, other.idDisponibilidade);
 	}
+
+	
 
 }
